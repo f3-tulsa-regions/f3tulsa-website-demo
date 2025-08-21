@@ -1,6 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
+import ExpandingText from '../components/ExpandingText.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
@@ -11,39 +11,176 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
-		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<div class="welcome-section">
+				<h1>F3 Tulsa Regions</h1>
+				<h2 class="welcome-subtitle">Fellowship, Fitness, and Faith</h2>
+				
+				<ExpandingText title="T-Town Region"
+					image={{
+						src: "/img/t-town-logo.png",
+						alt: "F3 T-Town Logo"
+					}}
+					initiallyExpanded={false}
+				>
+					<nav class="link-list" aria-label="Links for F3 Tulsa Regions">
+						<a class="link-item" href="https://regions.f3nation.com/t-town" target="_blank">
+							<span class="link-icon">📍</span>
+							<span>Region Locations</span>
+						</a>
+						<a class="link-item" href="https://lookerstudio.google.com/s/vhq7k7N5AvI" target="_blank">
+							<span class="link-icon">📊</span>
+							<span>PAX Stats</span>
+						</a>
+						<a class="link-item" href="https://f3tulsa.wordpress.com/author/f3tulsa896b3a780f/" target="_blank">
+							<span class="link-icon">📝</span>
+							<span>Past Beatdowns</span>
+						</a>
+						<a class="link-item" href="https://calendar.google.com/calendar/embed?src=2e8276542d6ee2c39cde77d000f217fbddfeb7f9f3925ca2bdbee5c6371dac4a%40group.calendar.google.com&ctz=America%2FChicago&mode=AGENDA" target="_blank">
+							<span class="link-icon">📅</span>
+							<span>Events Calendar</span>
+						</a>
+						<a class="link-item" href="https://calendar.google.com/calendar/embed?src=28983676f05e59e8ff8c2d144cf707ae97332071b32ee472b773341975bb910b%40group.calendar.google.com&ctz=America%2FChicago&mode=AGENDA" target="_blank">
+							<span class="link-icon">💪</span>
+							<span>AO Calendar</span>
+						</a>
+					</nav>
+				</ExpandingText>
+				
+				<ExpandingText title="Scissortail Region" 
+					image={{
+						src: "/img/scissortail-logo.png",
+						alt: "F3 Scissortail Logo"
+					}}
+					initiallyExpanded={false}
+				>
+				<nav class="link-list" aria-label="Links for F3 Scissortail Region">
+				<a class="link-item" href="https://regions.f3nation.com/scissortail" target="_blank">
+					<span class="link-icon">📍</span>
+					<span>Region Locations</span>
+				</a>
+				<a class="link-item" href="https://lookerstudio.google.com/s/gcu39ppv6NE" target="_blank">
+					<span class="link-icon">📊</span>
+					<span>PAX Stats</span>
+				</a>
+				<a class="link-item" href="https://f3tulsa.wordpress.com/author/f3scissortail/" target="_blank">
+					<span class="link-icon">📝</span>
+					<span>Past Beatdowns</span>
+				</a>
+				<a class="link-item" href="https://calendar.google.com/calendar/embed?src=37e0dbd985024fe219e05553205f9ce43d66f211ddc32562ab85880d989225c5%40group.calendar.google.com&ctz=America%2FChicago&mode=AGENDA" target="_blank">
+					<span class="link-icon">📅</span>
+					<span>Events Calendar</span>
+				</a>
+				<a class="link-item" href="https://calendar.google.com/calendar/embed?src=b6c79a2bbfca63b07253825d35ead0863900b09be8be1932b5e3d4bb67f41770%40group.calendar.google.com&ctz=America%2FChicago&mode=AGENDA" target="_blank">
+					<span class="link-icon">💪</span>
+					<span>AO Calendar</span>
+				</a>
+			</nav>
+				</ExpandingText>
+
+				<ExpandingText 
+					title="I'm New! 😅"
+				>
+					<h2>FNG, Welcome!</h2>
+
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It starts at 5:30 a.m (usually).</h3>
+						</div>
+						<div class="info-item">
+							<p>Ah, the biggest barrier to showing up. We know it sounds crazy-and it sounds weird saying this, but you will come to genuinely love waking up early and getting a jump start on your day.</p>
+							<p>You'll also love the time you get to yourself without emails, kids, spouses, and daily life creeping in. F3 is a break from all of that.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It's a 45 minute boot-camp style workout.</h3>
+						</div>
+						<div class="info-item">
+							<p>F3 is a peer-lead, non-professional boot camp-style workout.</p>
+							<p>Everyday is different (depending on who is leading) but the exercises are typically running, pushups, jumping jacks, burpees, stuff like that — and then occasionally doing something called "Murder Bunnies" with a cinder block, but I don't want to freak you out.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It's always outside - usually at a park or school.</h3>
+						</div>
+						<div class="info-item">
+							<p>We literally meet in parking lots of parks and schools around Tulsa. I got to tell you, those places where your kids play baseball look completely different at 5:30 a.m.</p>
+							<p>A core principle of F3 is that the workouts are always held outdoors. It's dark, quiet, and wonderful. We call it "The Gloom."</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>No one will yell at you. It's not a competition. It's just you versus you.</h3>
+						</div>
+						<div class="info-item">
+							<p>So if you're imagining a drill Sargent yelling at you to do pushups, you've got it all wrong. In fact, it's pretty much the opposite of that.</p>
+							<p>The men of F3 Tulsa are here to encourage you, whatever your ability, age or fitness level.</p>
+							<p>We have the saying "Leave no man behind, but leave him better than you found him."</p>
+							<p>So no yelling. Just the occasional fist bump.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It's completely free. No strings.</h3>
+						</div>
+						<div class="info-item">
+							<p>So yeah, F3 is a free men's workout. There is nothing to buy. No up sell, or cult to join. There's no points or rewards. No affiliate program or multi-level pyramid of recruitment incentives. It's just simply free.</p>
+							<p>There is nothing to rent. No one to pay. Just a group of guys that come together at 5:30 a.m. in outdoor places around Tulsa to work out.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It has nothing to do with religion.</h3>
+						</div>
+						<div class="info-item">
+							<p>F3 stands for Fitness, Fellowship & Faith®.</p>
+							<p>The faith thing can be a turn off to some men – so let's unpack it a little. F3 is not a Christian organization. A lot of men in the group are, but F3 itself has nothing to do with any religion.</p>
+							<p>We end every workout with a positive thought for the day. It could be a reflection or perspective from whomever is leading the workout. Some may call that a prayer. Whatever you call it, it's food for the soul.</p>
+							<p>Our version of faith isn't to get you to join a church – we just want you to believe in something bigger than yourself. Even if it's the man next to you.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>It's all ages. There are men from 22 - 65.</h3>
+						</div>
+						<div class="info-item">
+							<p>F3 is open to all men. We don't care if you're in your 20s or 70s, you have a place here. The nature of our workouts is you versus you. No matter your age, F3 will have you push yourself, without hurting yourself.</p>
+							<p>Besides, there are some 60 year olds in the group who put us all to shame. Respect, Respect.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>There are multiple locations around the Tulsa metro.</h3>
+						</div>
+						<div class="info-item">
+							<p>F3 Tulsa is held on some of the finest parking lots and parks in Tulsa.</p>
+							<p>We keep expanding around Tulsa county. Any location is probably only a 15-minute drive from your house. That means you can sleep in until 5 a.m.</p>
+						</div>
+					</div>
+					
+					<div class="info-grid">
+						<div class="info-item">
+							<h3>But I can't do a _______! I haven't worked out in years.</h3>
+						</div>
+						<div class="info-item">
+							<p>Wait, wait. Let me make sure I understand. You can't do push ups? You're not a runner? You're about 50 lbs. overweight? You've never worked out in your life and you don't know how? You're maybe a little embarrassed by your physical condition?</p>
+							<p>Perfect. Start tomorrow. There will be other men there in the same boat as you. No one will judge you on your shape — and they won't try to "motivate you" into shape.</p>
+							<p>They will just be by your side during the workout, and probably offer you coffee afterwards. You got this.</p>
+						</div>
+					</div>
+				</ExpandingText>
+				
+			</div>
+
 		</main>
 		<Footer />
 	</body>

@@ -1,0 +1,195 @@
+---
+export interface Props {
+  title: string;
+  initiallyExpanded?: boolean;
+  image?: {
+    src: string;
+    alt: string;
+  };
+}
+
+const { title, initiallyExpanded = false, image } = Astro.props;
+const cookieId = `expanding-text-${title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`;
+---
+
+<div class="expanding-text" data-initially-expanded={initiallyExpanded} data-cookie-id={cookieId}>
+  <button class="expanding-text-toggle" aria-expanded={initiallyExpanded}>
+    {image && (
+      <div class="toggle-image">
+        <img src={image.src} alt={image.alt} />
+      </div>
+    )}
+    <span class="toggle-text">{title}</span>
+    <svg class="toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6,9 12,15 18,9"></polyline>
+    </svg>
+  </button>
+  <div class="expanding-text-content" aria-hidden={!initiallyExpanded}>
+    <div class="content-inner">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .expanding-text {
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  .expanding-text-toggle {
+    width: 100%;
+    padding: 1rem;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .toggle-image {
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .toggle-image img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .toggle-text {
+    flex: 1;
+    text-align: left;
+    font-weight: 400;
+    font-family: "Black Ops One", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+
+  .expanding-text-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .expanding-text-toggle:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .toggle-icon {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .expanding-text[data-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .expanding-text-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+
+  .expanding-text[data-expanded="true"] .expanding-text-content {
+    max-height: 2000px; /* Increased to accommodate longer content */
+  }
+
+  .content-inner {
+    padding: 0 1rem 1rem 1rem;
+    color: var(--white);
+    line-height: 1.6;
+  }
+
+  .content-inner p {
+    margin: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const expandingTexts = document.querySelectorAll('.expanding-text');
+    
+    expandingTexts.forEach((container) => {
+      const toggle = container.querySelector('.expanding-text-toggle') as HTMLButtonElement;
+      const content = container.querySelector('.expanding-text-content') as HTMLElement;
+      const cookieId = container.getAttribute('data-cookie-id');
+      const initiallyExpanded = container.getAttribute('data-initially-expanded') === 'true';
+      
+      // Function to get cookie value
+      function getCookie(name: string): string | null {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+        return null;
+      }
+      
+      // Function to set cookie
+      function setCookie(name: string, value: string, days: number = 365) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+      }
+      
+      // Check if we have a saved state
+      let isExpanded = initiallyExpanded;
+      if (cookieId) {
+        const savedState = getCookie(cookieId);
+        if (savedState !== null) {
+          isExpanded = savedState === 'true';
+        }
+      }
+      
+      // Set initial state based on cookie or default
+      if (isExpanded) {
+        container.setAttribute('data-expanded', 'true');
+        toggle.setAttribute('aria-expanded', 'true');
+        content.setAttribute('aria-hidden', 'false');
+      }
+      
+      toggle.addEventListener('click', () => {
+        const currentExpanded = container.getAttribute('data-expanded') === 'true';
+        const newExpanded = !currentExpanded;
+        
+        if (newExpanded) {
+          // When expanding, first set content to visible to measure its height
+          content.style.maxHeight = 'none';
+          const contentHeight = content.scrollHeight;
+          content.style.maxHeight = '0px';
+          
+          // Force a reflow
+          content.offsetHeight;
+          
+          // Now animate to the actual height
+          content.style.maxHeight = contentHeight + 'px';
+        } else {
+          // When collapsing, animate to 0
+          content.style.maxHeight = '0px';
+        }
+        
+        container.setAttribute('data-expanded', newExpanded.toString());
+        toggle.setAttribute('aria-expanded', newExpanded.toString());
+        content.setAttribute('aria-hidden', (!newExpanded).toString());
+        
+        // Save state to cookie
+        if (cookieId) {
+          setCookie(cookieId, newExpanded.toString());
+        }
+        
+        // Clean up max-height after animation completes
+        if (newExpanded) {
+          setTimeout(() => {
+            content.style.maxHeight = 'none';
+          }, 500);
+        }
+      });
+    });
+  });
+</script>
