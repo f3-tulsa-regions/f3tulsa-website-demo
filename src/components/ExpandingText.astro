@@ -152,6 +152,15 @@ const cookieId = `expanding-text-${title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCa
         container.setAttribute('data-expanded', 'true');
         toggle.setAttribute('aria-expanded', 'true');
         content.setAttribute('aria-hidden', 'false');
+      } else {
+        // Fix accessibility: remove focusable elements from tab order when initially collapsed
+        const focusableElements = content.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        focusableElements.forEach((element) => {
+          if (!element.hasAttribute('data-original-tabindex')) {
+            element.setAttribute('data-original-tabindex', element.getAttribute('tabindex') || '0');
+            element.setAttribute('tabindex', '-1');
+          }
+        });
       }
       
       toggle.addEventListener('click', () => {
@@ -177,6 +186,24 @@ const cookieId = `expanding-text-${title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCa
         container.setAttribute('data-expanded', newExpanded.toString());
         toggle.setAttribute('aria-expanded', newExpanded.toString());
         content.setAttribute('aria-hidden', (!newExpanded).toString());
+        
+        // Fix accessibility: manage focusable elements when hidden
+        const focusableElements = content.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        focusableElements.forEach((element) => {
+          if (newExpanded) {
+            // When expanding, restore normal tab behavior
+            if (element.hasAttribute('data-original-tabindex')) {
+              element.setAttribute('tabindex', element.getAttribute('data-original-tabindex')!);
+              element.removeAttribute('data-original-tabindex');
+            }
+          } else {
+            // When collapsing, remove from tab order and store original tabindex
+            if (!element.hasAttribute('data-original-tabindex')) {
+              element.setAttribute('data-original-tabindex', element.getAttribute('tabindex') || '0');
+              element.setAttribute('tabindex', '-1');
+            }
+          }
+        });
         
         // Save state to cookie
         if (cookieId) {
